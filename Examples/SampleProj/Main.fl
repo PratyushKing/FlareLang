@@ -1,0 +1,97 @@
+#entry SampleProj // proj name
+#contain io
+#contain sys
+// #contain %SomeDirInSourceDir/SampleLib.fl // add % to tell flare that the file is in current dir rather than stdlibs
+
+/* THIS PART IS COMMENTED BECAUSE IT HAS ITS OWN BUILD FILE
+%section Building // you can do this wherever you want and name it anything, its more like regions and is a pre-processor keyword
+
+#buildOpts: projName = SyntaxSampleProj
+#buildOpts: projOutType = Program
+#buildOpts: outputType = interpreted // options are 'interpreted', 'interpretedCache', 'compiled', 'transpile [cpp/cs]' depending on 'projOutType'
+#buildOpts: fastBuild = true // always make cache files on first run and use it to modify lines and changes by using line comments
+
+%endSection
+
+%def THIS_IS_A_CONST_VAL 0 // these are pre-processed variables
+
+%if THIS_IS_A_CONST_VAL 1
+%endif
+
+%if THIS_IS_A_CONST_VAL DEFINED // if already defined, ifdef
+%endif
+
+%if THIS_IS_A_CONST_VAL NOT_DEFINED // if not defined, ifndef
+%endif
+
+%undef THIS_IS_A_CONST_VAL // undefine keyword
+
+%if FLARE_INTERPRETED_OUTPUT // if being interpreted
+%instruction "ret" // add instruction when being interpreted only, allows libs to be dynamically written and not rewritten for output modes.
+%endif
+*/
+
+/*
+big comment right here
+*/
+
+pub func Main(str[]: args) -> void {
+	io.printLn("Hello World!");
+
+	int Number = 0;
+	str String = "";
+	uInt UnsignedNumber = 0;
+	flt FloatNum = 0; // float also works!
+	dec DecimalNum = 0.0; // decimal also works!
+
+	boo BoolVal = false; // boo is optional and is just there to match 3 letter theme, bool works too!
+
+	int[] IntArr = { 0, 1, 2 }[3]; // length is optional and if length > initialized nums in array then it just fills uninitialized ones with 0, same is for flt[], dec[] and uInt[]
+	str[] StrArr = { "A", "B", "C" }[3]; // same here except if length > initialized strs in array then it throws an exception
+
+	int Null = null; // you can set any var to null as long as its not referenced
+
+	// sys.exit(0); // alternative way to force quit program any where as long as it is out type program.
+	return 0;
+}
+
+pub enum Gender {
+	Male = 1,
+	Female = 2,
+	Trans = 3
+	// ....yes thats it.
+}
+
+pub class Human { // pub in class means that any file can access this function when contained, priv will make it only available to this file
+	int Age = 1;
+	int Lives = 1;
+	priv Gender = null; // you have to define a var in class with something, uninitialized will throw an error and null is the closest bet
+	priv boo IsAlive = false; // when you don't specify accessors it just defaults to class's accessor (pub in this case), here it specifies priv so nobody outside this class can access 'IsAlive'
+	
+	Human(int: age, lives, boo: isAlive = true, Gender: gender) -> void
+	{
+		Age = age;
+		Lives = lives;
+		IsAlive = isAlive;
+		Gender = gender;
+	}
+
+	priv func Kill() -> void { // likewise for functions, default is pub but here explicitly its priv
+		IsAlive = false;
+	}
+
+	func Birthday() -> void { // this is a public function due to it defaulting to pub
+		Age = Age++;
+		// Age++; // both work the same
+	}
+}
+
+pub struct Test {
+	int: ValA;
+	int: ValB;
+
+	Test(int: ValA, ValB) { // no return type, write functions to return things
+		_this.ValA = ValA;
+		_this.ValB = ValB;
+	}
+}

@@ -1,0 +1,37 @@
+#buildFile
+
+// Define Build Options (mandatory)
+#buildOpts: projName = SyntaxSampleProj
+#buildOpts: projOutType = Program
+#buildOpts: outputType = interpreted // options are 'interpreted', 'interpretedCache', 'compiled', 'transpile [cpp/cs]' depending on 'projOutType'
+
+/// This below option is very unsafe if turned off, it basically make sures that all files you try to build are sending valid build instructions,
+/// for example if a file is written for compiled out type, flare will make sure that you do not end up using that file on your interpreted project
+#buildOpts: enforceFileFunctionOutTypes = true
+
+#buildOpts: stdLibsInclude = true // could be false for low level projects, this includes 'io', 'sys', 'term', etc.
+
+// Define Build Options (optional)
+#buildOpts: fastBuild = true // always make cache files on first run and use it to modify lines and changes by using line comments
+#buildOpts: unsafeCode = false // generally this means to allow unsafe pointers or not but here it refers to type checks and null checks (potentially harmful for new users)
+
+// Add Files
+#buildOpts: addFile = "Main.fl" // every contain in Main.fl will also be auto added
+#buildOpts: _entry = "Main.fl" // marks primary or first file
+
+// this function is entirely optional but it allows you to set build process, you can make it fancier by adding prompts before and after or change build opts by user input
+_buildProcess() {
+	_this.buildBySetOptions();
+}
+
+// this is also entirely optional but it shows that you can change run process too if you run with the flare compiler
+_run() {
+	// params = { "" }[1]; // you can modify params but this is how it is by default
+	_this.runWithDefaultOptions();
+}
+
+func TestCase1(int: randomNum) -> int { // name 'TestCase1' with anything you want
+	// this is just a test but what this does is that it runs the program with a random num, you can do a lot of stuff here
+	params = { randomNum };
+	_run();
+}
