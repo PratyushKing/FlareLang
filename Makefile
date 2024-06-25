@@ -1,4 +1,5 @@
 COMPILER=g++
+COMPILE_FLAGS=-Og
 OUTPUT=bin/flare
 OUTDIR=bin/
 
@@ -11,4 +12,4 @@ clean:
 
 cli: src/CLI.cpp
 	@mkdir $(OUTDIR) -p
-	@$(COMPILER) -o $(OUTPUT) $(MAIN_FILE)
+	@$(COMPILER) -o $(OUTPUT) $(MAIN_FILE) $(COMPILE_FLAGS)
